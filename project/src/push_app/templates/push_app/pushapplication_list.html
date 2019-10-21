@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% load django_tables2 %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-body">
+
+                <p><a class="btn btn-default" href="{% url 'push_app_pushapplication_list' %}">PushApplication
+                    Listing</a></p>
+
+                {% render_table table %}
+                <a class="btn btn-primary" href="{% url 'push_app_pushapplication_create' %}">Create new
+                    PushApplication</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

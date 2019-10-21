@@ -1,0 +1,14 @@
+{% extends 'adminlte/lib/_main_sidebar.html' %}
+
+{% block nav_links %}
+<li>
+    <a href="{% url 'push_app_pushapplication_list' %}">
+        <i class="fa fa-dashboard"></i> <span>Application</span>
+    </a>
+</li>
+<li>
+    <a href="{% url 'push_app_pushapplication_create_message' %}">
+        <i class="fa fa-envelope"></i> <span>Messages</span>
+    </a>
+</li>
+{% endblock nav_links %}
