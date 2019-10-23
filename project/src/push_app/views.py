@@ -13,6 +13,7 @@ import django_tables2
 
 from pyfcm import FCMNotification
 
+
 class PushApplicationListView(LoginRequiredMixin,  django_tables2.SingleTableView):
     model = PushApplication
     paginate_by = 10
@@ -36,6 +37,7 @@ class PushApplicationCreateView(LoginRequiredMixin, CreateView):
             self.request,
             "Data successful created", )
         return reverse_lazy('push_app_pushapplication_list')
+
 
 class PushApplicationDetailView(LoginRequiredMixin, DetailView):
     model = PushApplication
@@ -75,14 +77,13 @@ class CreateMessageView(LoginRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         form : CreateMessageForm = CreateMessageForm(request.POST)
-        is_valid = form.is_valid()
         push_app : PushApplication = form.cleaned_data['push_app']
-
         push_service : FCMNotification = FCMNotification(api_key=push_app.api_key)
-
         result = push_service.notify_single_device(registration_id=form.cleaned_data['token'],
                                           message_title=form.cleaned_data['title'],
-                                          message_body=form.cleaned_data['message'])
+                                          message_body=form.cleaned_data['message'],
+                                        data_message={'msg': form.cleaned_data['message'],
+                                                      'contentTitle' : form.cleaned_data['title']})
         messages.success(
             self.request,
             result, )

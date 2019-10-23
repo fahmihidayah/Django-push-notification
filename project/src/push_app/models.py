@@ -38,11 +38,33 @@ class PushApplication(models.Model):
     def get_absolute_url(self):
         return reverse('push_app_pushapplication_detail', args=(self.slug,))
 
-
     def get_update_url(self):
         return reverse('push_app_pushapplication_update', args=(self.slug,))
 
+    def get_delete_url(self):
+        return reverse('push_app_pushapplication_delete', args=(self.pk,))
+
+    def get_list_todo(self):
+        return reverse('push_app_pushapplication_list')
+
     def __str__(self):
         return self.name
+
+
+class RegisteredToken(models.Model):
+
+    token = models.CharField(max_length=255)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField(auto_now=True, editable=False)
+    push_app = models.ForeignKey(PushApplication, on_delete=models.CASCADE, related_name='tokens')
+
+
+class MessageData(models.Model):
+    title = models.CharField(max_length=255)
+    message = models.CharField(max_length=255)
+    token = models.CharField(max_length=255, null=True, default=None)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField(auto_now=True, editable=False)
+    push_app = models.ForeignKey(PushApplication, on_delete=models.CASCADE, related_name='message_datas')
 
 

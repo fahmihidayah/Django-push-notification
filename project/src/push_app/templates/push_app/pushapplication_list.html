@@ -1,8 +1,7 @@
 {% extends "admin/base.html" %}
 {% load static %}
-
 {% load django_tables2 %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="row">
     <div class="col-md-12">
@@ -19,4 +18,12 @@
         </div>
     </div>
 </div>
+
+{% include 'modal/confirmation_modal.html' %}
+{% endblock %}
+
+
+{% block javascript %}
+    {{ block.super }}
+     <script src="{% static 'site/js/modal.js' %}"></script>
 {% endblock %}
