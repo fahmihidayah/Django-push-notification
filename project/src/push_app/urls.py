@@ -6,6 +6,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'pushapplication', api.PushApplicationViewSet)
+router.register(r'tokens', api.RegisterTokenViewSet)
 
 
 urlpatterns = (
@@ -20,6 +21,8 @@ urlpatterns += (
     path('push_app/pushapplication/detail/<slug:slug>/', views.PushApplicationDetailView.as_view(), name='push_app_pushapplication_detail'),
     path('push_app/pushapplication/update/<slug:slug>/', views.PushApplicationUpdateView.as_view(), name='push_app_pushapplication_update'),
     path('push_app/pushapplication/delete/<slug:slug>/', views.PushApplicationDeleteView.as_view(), name='push_app_pushapplication_delete'),
-    path('push_app/pushapplication/create_message/', views.CreateMessageView.as_view(), name='push_app_pushapplication_create_message'),
+    path('push_app/message/create/', views.CreateMessageView.as_view(), name='push_app_message_create'),
+    path('push_app/tokens/<int:id>', views.ListRegisteredTokenView.as_view(), name='push_app_tokens_list'),
+
 )
 

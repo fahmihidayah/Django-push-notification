@@ -11,3 +11,8 @@ class PushApplicationViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
+class RegisterTokenViewSet(viewsets.ModelViewSet):
+    queryset = models.RegisteredToken.objects.all()
+    serializer_class = serializers.RegisteredTokenSerializer
+
+

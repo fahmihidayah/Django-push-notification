@@ -42,9 +42,12 @@ class PushApplication(models.Model):
         return reverse('push_app_pushapplication_update', args=(self.slug,))
 
     def get_delete_url(self):
-        return reverse('push_app_pushapplication_delete', args=(self.pk,))
+        return reverse('push_app_pushapplication_delete', args=(self.slug,))
 
-    def get_list_todo(self):
+    def get_tokens(self):
+        return reverse('push_app_tokens_list', args=(self.pk,))
+
+    def get_list_push_app(self):
         return reverse('push_app_pushapplication_list')
 
     def __str__(self):

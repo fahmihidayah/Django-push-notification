@@ -16,4 +16,13 @@ class PushApplicationSerializer(serializers.ModelSerializer):
             'api_key', 
         )
 
+class RegisteredTokenSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.RegisteredToken
+        fields = (
+            'token',
+            'created',
+            'last_updated',
+        )
 

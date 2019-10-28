@@ -1,13 +1,14 @@
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView, TemplateView
-from .models import PushApplication
+from .models import PushApplication, RegisteredToken
 from .forms import PushApplicationForm, CreateMessageForm
-
+from .serializers import RegisteredTokenSerializer
+from rest_framework import viewsets, views
 from django.urls import reverse_lazy
 
 from django.shortcuts import redirect
 
 from django.contrib import messages
-from .tables import PushApplicationTable
+from .tables import PushApplicationTable, RegisteredTokenTable
 from django.contrib.auth.mixins import LoginRequiredMixin
 import django_tables2
 
@@ -64,6 +65,16 @@ class PushApplicationDeleteView(LoginRequiredMixin, DeleteView):
         return reverse_lazy('push_app_pushapplication_list')
 
 
+class ListRegisteredTokenView(LoginRequiredMixin, django_tables2.SingleTableView):
+    model = RegisteredToken
+    paginate_by = 10
+    table_class = RegisteredTokenTable
+
+    def get_queryset(self):
+        print(self.kwargs['id'])
+        return RegisteredToken.objects.all()
+
+
 class CreateMessageView(LoginRequiredMixin, TemplateView):
     http_method_names = ['post', 'get']
     template_name = "push_app/pushapplication_message_form.html"
@@ -89,8 +100,4 @@ class CreateMessageView(LoginRequiredMixin, TemplateView):
             result, )
 
         return redirect('push_app_pushapplication_create_message')
-
-
-
-
 
