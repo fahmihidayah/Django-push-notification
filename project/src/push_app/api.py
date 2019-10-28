@@ -26,15 +26,6 @@ class RegisterTokenRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAP
     serializer_class = serializers.RegisteredTokenSerializer
 
 
-class RegisterTokenCreateView(generics.CreateAPIView):
-    serializer_class = serializers.RegisteredTokenSerializer
-
-    def perform_create(self, serializer):
-        return super(RegisterTokenCreateView, self).perform_create(serializer)
-
-
-
-
 
 
 

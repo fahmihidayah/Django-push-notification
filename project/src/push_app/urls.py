@@ -24,7 +24,7 @@ urlpatterns += (
     path('push_app/pushapplication/delete/<slug:slug>/', views.PushApplicationDeleteView.as_view(), name='push_app_pushapplication_delete'),
     path('push_app/message/create/', views.CreateMessageView.as_view(), name='push_app_message_create'),
     path('push_app/tokens/<int:id>', views.ListRegisteredTokenView.as_view(), name='push_app_tokens_list'),
-    path('push_app/api/create_tokens', api.RegisterTokenCreateView.as_view(), name='push_app_api_create_token'),
+
     path('push_app/api/token', api.RegisterTokenListCreateAPIView.as_view(), name='push_app_api_token'),
     path('push_app/api/token/<int:pk>', api.RegisterTokenRetrieveUpdateDestroyAPIView.as_view(), name='push_app_api_token'),
 
