@@ -21,4 +21,4 @@ class RegisteredTokenTable(tables.Table):
     class Meta:
         model = RegisteredToken
         fields = ['id', 'token', 'created', 'last_updated']
-        tamplate_name = 'django_tables2/bootstrap.html'
+        template_name = 'django_tables2/bootstrap.html'

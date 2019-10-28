@@ -22,6 +22,7 @@ class RegisteredTokenSerializer(serializers.ModelSerializer):
         model = models.RegisteredToken
         fields = (
             'token',
+            'push_app',
             'created',
             'last_updated',
         )

@@ -71,8 +71,7 @@ class ListRegisteredTokenView(LoginRequiredMixin, django_tables2.SingleTableView
     table_class = RegisteredTokenTable
 
     def get_queryset(self):
-        print(self.kwargs['id'])
-        return RegisteredToken.objects.all()
+        return RegisteredToken.objects.filter(push_app=self.kwargs['id'])
 
 
 class CreateMessageView(LoginRequiredMixin, TemplateView):
