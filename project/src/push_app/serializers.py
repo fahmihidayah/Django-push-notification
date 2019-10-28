@@ -21,6 +21,7 @@ class RegisteredTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.RegisteredToken
         fields = (
+            'pk',
             'token',
             'push_app',
             'created',

@@ -16,7 +16,12 @@ class RegisterTokenViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RegisteredTokenSerializer
 
 
-class RegisterTokenList(generics.ListCreateAPIView):
+class RegisterTokenListCreateAPIView(generics.ListCreateAPIView):
+    queryset = models.RegisteredToken.objects.all()
+    serializer_class = serializers.RegisteredTokenSerializer
+
+
+class RegisterTokenRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.RegisteredToken.objects.all()
     serializer_class = serializers.RegisteredTokenSerializer
 
