@@ -19,7 +19,8 @@ class PushApplicationForm(forms.ModelForm):
 class CreateMessageForm(forms.Form):
     title = forms.CharField(label='Judul')
     message = forms.CharField(label='Pesan')
-    token = forms.CharField(label='Token')
+    is_single = forms.BooleanField(label='is Single', required=False)
+    token = forms.CharField(label='Token', required=False)
     push_app = forms.ModelChoiceField(label='Application', queryset=PushApplication.objects.all())
 
     def __init__(self, *args, **kwargs):

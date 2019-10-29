@@ -14,6 +14,8 @@ import django_tables2
 
 from pyfcm import FCMNotification
 
+from .utils import send_fcm_message
+
 
 class PushApplicationListView(LoginRequiredMixin,  django_tables2.SingleTableView):
     model = PushApplication
@@ -84,19 +86,23 @@ class CreateMessageView(LoginRequiredMixin, TemplateView):
         context['form'] = CreateMessageForm(initial={'user':self.request.user})
         return context
 
-
     def post(self, request, *args, **kwargs):
         form : CreateMessageForm = CreateMessageForm(request.POST)
-        push_app : PushApplication = form.cleaned_data['push_app']
-        push_service : FCMNotification = FCMNotification(api_key=push_app.api_key)
-        result = push_service.notify_single_device(registration_id=form.cleaned_data['token'],
-                                          message_title=form.cleaned_data['title'],
-                                          message_body=form.cleaned_data['message'],
-                                        data_message={'msg': form.cleaned_data['message'],
-                                                      'contentTitle' : form.cleaned_data['title']})
+        if form.is_valid():
+            push_app: PushApplication = form.cleaned_data['push_app']
+            if form.cleaned_data['is_single']:
+                result = send_fcm_message(api_key=push_app.api_key, title=form.cleaned_data['title'],
+                                          message=form.cleaned_data['message'], tokens=[form.cleaned_data['token']])
+            else:
+                tokens = list(push_app.tokens.all().values_list('token', flat=True))
+                result = send_fcm_message(api_key=push_app.api_key, title=form.cleaned_data['title'],
+                                          message=form.cleaned_data['message'], tokens=tokens)
+        else:
+            result = form.errors
+
         messages.success(
             self.request,
-            result, )
+            result,)
 
-        return redirect('push_app_pushapplication_create_message')
+        return redirect('push_app_message_create')
 
