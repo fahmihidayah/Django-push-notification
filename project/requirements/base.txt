@@ -13,5 +13,6 @@ django-extensions==2.1.5
 djangorestframework==3.9.1
 psycopg2-binary==2.7.5
 gunicorn==19.9.0
+celery
 django-guardian
 markdown

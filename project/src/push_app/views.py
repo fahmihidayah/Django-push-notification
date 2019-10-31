@@ -1,5 +1,5 @@
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView, TemplateView
-from .models import PushApplication, RegisteredToken
+from .models import PushApplication, RegisteredToken, MessageData
 from .forms import PushApplicationForm, CreateMessageForm
 from .serializers import RegisteredTokenSerializer
 from rest_framework import viewsets, views
@@ -93,6 +93,7 @@ class CreateMessageView(LoginRequiredMixin, TemplateView):
             if form.cleaned_data['is_single']:
                 result = send_fcm_message(api_key=push_app.api_key, title=form.cleaned_data['title'],
                                           message=form.cleaned_data['message'], tokens=[form.cleaned_data['token']])
+                # message : MessageData = MessageData()
             else:
                 tokens = list(push_app.tokens.all().values_list('token', flat=True))
                 result = send_fcm_message(api_key=push_app.api_key, title=form.cleaned_data['title'],
