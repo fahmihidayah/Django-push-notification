@@ -70,4 +70,12 @@ class MessageData(models.Model):
     last_updated = models.DateTimeField(auto_now=True, editable=False)
     push_app = models.ForeignKey(PushApplication, on_delete=models.CASCADE, related_name='message_datas')
 
+    def is_single(self) -> bool:
+        return not self.token
+
+    def initial(self, create_message_form):
+        self.title = create_message_form.cleaned_data['title']
+        self.message = create_message_form.cleaned_data['message']
+        self.token = create_message_form.cleaned_data['token']
+        self.push_app = create_message_form.cleaned_data['push_app']
 

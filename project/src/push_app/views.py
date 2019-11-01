@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 
 from django.contrib import messages
-from .tables import PushApplicationTable, RegisteredTokenTable
+from .tables import PushApplicationTable, RegisteredTokenTable, MessageDataTable
 from django.contrib.auth.mixins import LoginRequiredMixin
 import django_tables2
 
@@ -67,6 +67,16 @@ class PushApplicationDeleteView(LoginRequiredMixin, DeleteView):
         return reverse_lazy('push_app_pushapplication_list')
 
 
+class MessageDataListView(LoginRequiredMixin, django_tables2.SingleTableView):
+    template_name = 'push_app/message_data_list.html'
+    model = MessageData
+    paginate_by = 10
+    table_class = MessageDataTable
+
+    def get_queryset(self):
+        return MessageData.objects.all()
+
+
 class ListRegisteredTokenView(LoginRequiredMixin, django_tables2.SingleTableView):
     model = RegisteredToken
     paginate_by = 10
@@ -100,6 +110,10 @@ class CreateMessageView(LoginRequiredMixin, TemplateView):
                                           message=form.cleaned_data['message'], tokens=tokens)
         else:
             result = form.errors
+
+        messageData : MessageData = MessageData()
+        messageData.initial(form)
+        messageData.save()
 
         messages.success(
             self.request,
