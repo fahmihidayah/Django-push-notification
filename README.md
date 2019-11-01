@@ -1,6 +1,6 @@
 
 
-# project
+# Push notification FCM with django
 
 project is a _short description_. It is built with [Python][0] using the [Django Web Framework][1].
 
