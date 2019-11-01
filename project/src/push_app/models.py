@@ -79,3 +79,8 @@ class MessageData(models.Model):
         self.token = create_message_form.cleaned_data['token']
         self.push_app = create_message_form.cleaned_data['push_app']
 
+    def get_resend_message(self):
+        return reverse('push_app_resend_message', args=(self.pk,))
+
+
+

@@ -28,7 +28,7 @@ urlpatterns += (
     path('push_app/api/token', api.RegisterTokenListCreateAPIView.as_view(), name='push_app_api_token'),
     path('push_app/api/token/<int:pk>', api.RegisterTokenRetrieveUpdateDestroyAPIView.as_view(), name='push_app_api_token'),
     path('push_app/messages', views.MessageDataListView.as_view(), name='push_app_message_data_list'),
-
+    path('push_app/resend_message/<int:id>', views.ResendMessageView.as_view(), name='push_app_resend_message')
 
 )
 

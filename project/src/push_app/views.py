@@ -1,11 +1,11 @@
-from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView, TemplateView
+from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView, TemplateView, View
 from .models import PushApplication, RegisteredToken, MessageData
 from .forms import PushApplicationForm, CreateMessageForm
 from .serializers import RegisteredTokenSerializer
 from rest_framework import viewsets, views
 from django.urls import reverse_lazy
 
-from django.shortcuts import redirect
+from django.shortcuts import redirect,get_object_or_404
 
 from django.contrib import messages
 from .tables import PushApplicationTable, RegisteredTokenTable, MessageDataTable
@@ -85,6 +85,25 @@ class ListRegisteredTokenView(LoginRequiredMixin, django_tables2.SingleTableView
     def get_queryset(self):
         return RegisteredToken.objects.filter(push_app=self.kwargs['id'])
 
+
+class ResendMessageView(LoginRequiredMixin, View):
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        message_data_id = kwargs['id']
+        message_data : MessageData = get_object_or_404(MessageData, pk=message_data_id)
+        if message_data.is_single():
+            result = send_fcm_message(api_key=message_data.push_app.api_key, title=message_data.title,
+                                      message=message_data.message, tokens=[message_data.token])
+        else:
+            tokens = list(message_data.push_app.tokens.all().values_list('token', flat=True))
+            result = send_fcm_message(api_key=message_data.push_app.api_key, title=message_data.title,
+                                      message=message_data.message , tokens=tokens)
+
+        messages.success(
+                self.request,
+                result, )
+        return redirect('push_app_message_data_list')
 
 class CreateMessageView(LoginRequiredMixin, TemplateView):
     http_method_names = ['post', 'get']
